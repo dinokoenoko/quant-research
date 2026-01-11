@@ -1,17 +1,17 @@
-# Meta-Alpha Research on BIST100
+# Meta Alpha Research on BIST100
 
 ## Overview
 
-This project implements an end-to-end **quantitative research pipeline** for discovering, filtering, and combining trading signals (alphas) in a **cross-sectional equity setting**. Using BIST100 equities as a test universe, the project computes Alpha101-style signals, selects robust factors via regularized regression, and evaluates a long–short meta-alpha portfolio under realistic assumptions.
+This project implements an end-to-end quantitative research pipeline for discovering, filtering, and combining trading signals (or alphas) in a cross-sectional equity setting. Using each BIST100 equity, this project computes Alpha101 style signals, selects factors by regularized regression, and evaluates a long–short meta alpha portfolio under realistic assumptions.
 
-The focus is **research discipline and reproducibility**, not curve-fitting or production claims.
+This is a research project, not production gains.
 
 ---
 
 ## Objectives
 
 * Translate market hypotheses into quantitative alpha features
-* Handle real-world, noisy financial data
+* Handle real world noisy financial data
 * Filter and combine signals using statistically disciplined methods
 * Evaluate cross-sectional long–short performance with transaction costs
 * Build a reusable research framework transferable to other asset classes
@@ -20,17 +20,17 @@ The focus is **research discipline and reproducibility**, not curve-fitting or p
 
 ## Data
 
-* **Universe:** BIST100 equities
-* **Frequency:** Daily
-* **Period:** 2010–2025
-* **Fields:**
+* Universe: BIST100 equities
+* Frequency: Daily
+* Period: 2010–2025
+* Fields:
 
   * Open, High, Low, Close, Volume
   * Returns
   * VWAP
   * Average Daily Volume (ADV): 10–180 day windows
 
-Data is converted from wide format to **long (symbol–date)** format for cross-sectional analysis.
+Data is converted from wide format to long (symbol–date) format for a proper cross-sectional analysis.
 
 ---
 
@@ -38,7 +38,7 @@ Data is converted from wide format to **long (symbol–date)** format for cross-
 
 ### 1. Feature Engineering
 
-* Computation of Alpha101-style signals
+* Computation of Alpha101 paper style signals
 * Alphas are calculated per stock and date
 * Incompatible or undefined alphas are automatically skipped
 
@@ -51,11 +51,10 @@ Data is converted from wide format to **long (symbol–date)** format for cross-
 
 ### 3. Meta-Alpha Construction
 
-* **Model:** LASSO regression with time-series cross-validation
-* **Objective:** Predict next-day (or multi-day) returns
+* **Model:** LASSO regression with time series cross-validation
+* **Objective:** Predict next-day (or multi-day, like 5) returns
 * **Why LASSO:**
 
-  * Enforces sparsity
   * Reduces overfitting
   * Improves interpretability
 
@@ -63,12 +62,11 @@ Data is converted from wide format to **long (symbol–date)** format for cross-
 
 * Forward returns per stock
 * Optional transaction cost adjustment
-* Supports multiple holding periods (e.g., 1-day, 5-day)
+* Supports multiple holding periods (1-day, 5-day)
 
 ### 5. Portfolio Evaluation
 
-* Cross-sectional ranking by meta-alpha
-* Quintile-based analysis
+* Cross-sectional ranking by meta alpha
 * Long–short (Q5 − Q1) portfolio
 * Performance metrics:
 
@@ -81,61 +79,44 @@ Data is converted from wide format to **long (symbol–date)** format for cross-
 
 ## Results (Example)
 
-* Successfully computed and filtered ~25–30 usable alphas
+* Successfully computed and filtered ~25–30 usable alphas 
 * Sparse meta-model selected a small subset of informative signals
 * Long–short portfolio exhibited positive spread and stable behavior
-* Performance varied across regimes, emphasizing non-stationarity
 
-> Results are **illustrative**, not claims of persistent alpha.
-
----
-
-## Project Structure
-
-```
-.
-├── data/
-│   └── bist100_data.pkl
-├── alpha101.py          # Alpha signal definitions
-├── meta_alpha.py        # Meta-alpha construction logic
-├── loader.py            # Data loading & transformation
-├── experiment.py        # End-to-end experiment runner
-└── README.md
-```
+> Results are illustrative, not claiming of immediate usable alpha.
 
 ---
 
 ## Design Principles
 
-* Research reproducibility over performance maximization
-* Explicit handling of missing and noisy data
-* Clear separation between data, features, and models
-* Market-agnostic architecture (easily extendable to commodities, power, gas)
+* Research reproducibility over performance maximization 
+* Explicit handling of missing/noisy data
+* Clear separation between data, features, and models by creating different classes for each
+* East to implement architecture (easily extendable to commodities, power, gas etc.)
 
 ---
 
 ## Limitations
 
-* Equity-based test universe (not energy markets)
-* Daily frequency only
-* No claim of out-of-sample persistence
-* No execution or slippage modeling beyond basic transaction costs
+* Equity-based test universe (not energy markets, yet)
+* Daily frequency 
+* Only basic transaction costs added, no slippage/production costs 
 
 ---
 
 ## Future Extensions
 
-* Apply framework to energy markets (power, gas, emissions)
+* Possibly applying this framework to energy markets (power, gas, emissions etc.)
 * Integrate fundamental and weather features
-* Regime-aware meta-models
-* Intraday extensions
-* Walk-forward validation
+* Regime aware meta models
+
 
 ---
 
 ## Disclaimer
 
-This project is for **research and educational purposes only**. It does not constitute investment advice or a production trading system.
+This project is for **research and educational purposes only**. It is not an investment advice or a production ready trading system.
+Also i have used the first 50 alphas of the Alpha101 alphas, not because i tested other possibilities and came to the realization that this was the most profitable, because i didnt want to use all the alphas which might result in having more strategies that are profitable just by the added chance that more strategies means probability of a strategy working would increase but it would actually just be overfitting.
 
 ---
 
@@ -143,4 +124,4 @@ This project is for **research and educational purposes only**. It does not cons
 
 Enes Köseahmetoğlu
 
-Quantitative Research / Trading Applications
+Quantitative Research / Trading Application
